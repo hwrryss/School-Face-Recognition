@@ -3,18 +3,76 @@ import face_recognition
 import numpy as np
 import os
 from datetime import datetime
+import time
+from oauth2client.service_account import ServiceAccountCredentials
+import httplib2
+import googleapiclient.discovery
 
 path = 'determinating_photos'
 images = []
 classNames = []
 myList = os.listdir(path)
 
+crr_row = 1
+
 for cl in myList:
     images.append(cv2.imread(f'{path}/{cl}'))
     classNames.append(os.path.splitext(cl)[0])
 
 
-def markAttendence(name):
+def editGoogleSheet(name):
+    global crr_row
+
+    CREDENTIALS_FILE = 'creds.json'
+    spreadsheet_id = '11k5_jgmYdJNwUJcA_rx3IobWZB-WYl9koJogkNODPRU'
+
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE,
+                                                                   ['https://www.googleapis.com/auth/spreadsheets',
+                                                                    'https://www.googleapis.com/auth/drive'])
+
+    httpAuth = credentials.authorize(httplib2.Http())
+    service = googleapiclient.discovery.build('sheets', 'v4', http=httpAuth)
+
+    now = datetime.now()
+    dtString = now.strftime('%H:%M:%S')
+
+    values = (
+        (name, dtString),
+    )
+
+    values_range_body = {
+        'majorDimension': 'ROWS',
+        'values': values
+    }
+
+    data = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='A1:A1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    if crr_row != 1:
+        if [name, ] not in data['values']:
+            res = service.spreadsheets().values().update(
+                spreadsheetId=spreadsheet_id,
+                valueInputOption='USER_ENTERED',
+                range='A' + str(crr_row),
+                body=values_range_body
+            ).execute()
+
+    else:
+        res = service.spreadsheets().values().update(
+                spreadsheetId=spreadsheet_id,
+                valueInputOption='USER_ENTERED',
+                range='A' + str(crr_row),
+                body=values_range_body
+            ).execute()
+
+
+    crr_row += 1
+
+
+'''def markAttendence(name):
     with open('Attendance.csv', 'r+') as f:
         myDataList = f.readlines()
 
@@ -29,7 +87,7 @@ def markAttendence(name):
             now = datetime.now()
             dtString = now.strftime('%H:%M:%S')
             f.writelines(f'\n{name}, {dtString}')
-
+'''
 
 def findEncoding(images):
     encodeList = []
@@ -46,8 +104,16 @@ encodeListKnown = findEncoding(images)
 
 cap = cv2.VideoCapture(0)
 
+pTime = 0
+
 while True:
     success, img = cap.read()
+
+    cTime = time.time()
+    fps = 1 / (cTime - pTime)
+    pTime = cTime
+
+    cv2.putText(img, str(int(fps)), (10, 70), cv2.FONT_HERSHEY_PLAIN, 3, (255, 0, 255), 3)
 
     imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
     imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
@@ -71,7 +137,7 @@ while True:
             cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
             cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
 
-            markAttendence(name)
+            editGoogleSheet(name)
 
     cv2.imshow('Webcam', img)
     cv2.waitKey(1)
