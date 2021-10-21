@@ -13,7 +13,7 @@ images = []
 classNames = []
 myList = os.listdir(path)
 
-crr_row = 1
+crr_row = 2
 
 for cl in myList:
     images.append(cv2.imread(f'{path}/{cl}'))
@@ -21,8 +21,6 @@ for cl in myList:
 
 
 def editGoogleSheet(name):
-    global crr_row
-
     CREDENTIALS_FILE = 'creds.json'
     spreadsheet_id = '11k5_jgmYdJNwUJcA_rx3IobWZB-WYl9koJogkNODPRU'
 
@@ -51,49 +49,23 @@ def editGoogleSheet(name):
         majorDimension='ROWS'
     ).execute()
 
-    if crr_row != 1:
-        if [name, ] not in data['values']:
-            res = service.spreadsheets().values().update(
-                spreadsheetId=spreadsheet_id,
-                valueInputOption='USER_ENTERED',
-                range='A' + str(crr_row),
-                body=values_range_body
-            ).execute()
+    crr_row = len(data['values']) + 1
 
-    else:
+    if [name, ] not in data['values']:
         res = service.spreadsheets().values().update(
-                spreadsheetId=spreadsheet_id,
-                valueInputOption='USER_ENTERED',
-                range='A' + str(crr_row),
-                body=values_range_body
-            ).execute()
+            spreadsheetId=spreadsheet_id,
+            valueInputOption='USER_ENTERED',
+            range='A' + str(crr_row),
+            body=values_range_body
+        ).execute()
 
-
-    crr_row += 1
-
-
-'''def markAttendence(name):
-    with open('Attendance.csv', 'r+') as f:
-        myDataList = f.readlines()
-
-        nameList = []
-
-        for line in myDataList:
-            entry = line.split(',')
-
-            nameList.append(entry[0])
-
-        if name not in nameList:
-            now = datetime.now()
-            dtString = now.strftime('%H:%M:%S')
-            f.writelines(f'\n{name}, {dtString}')
-'''
 
 def findEncoding(images):
     encodeList = []
 
     for img in images:
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
         encode = face_recognition.face_encodings(img)[0]
         encodeList.append(encode)
 
@@ -132,7 +104,6 @@ while True:
 
             y1, x2, y2, x1 = faceLoc
             y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
-
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
             cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
