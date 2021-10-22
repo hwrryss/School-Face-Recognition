@@ -2,12 +2,13 @@ import cv2
 import face_recognition
 import numpy as np
 import os
-from datetime import datetime
+from datetime import datetime, date
 import time
 from oauth2client.service_account import ServiceAccountCredentials
 import httplib2
 import googleapiclient.discovery
 import sys
+import csv
 
 
 path = 'determinating_photos'
@@ -20,6 +21,84 @@ crr_row = 2
 for cl in myList:
     images.append(cv2.imread(f'{path}/{cl}'))
     classNames.append(os.path.splitext(cl)[0])
+
+
+def get_data():
+    CREDENTIALS_FILE = 'creds.json'
+    spreadsheet_id = '11k5_jgmYdJNwUJcA_rx3IobWZB-WYl9koJogkNODPRU'
+
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
+
+    httpAuth = credentials.authorize(httplib2.Http())
+    service = googleapiclient.discovery.build('sheets', 'v4', http = httpAuth)
+
+    today = date.today()
+
+    data5C = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='A2:A1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    data6C = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='D2:D1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    data6T = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='G2:G1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    data7C = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='J2:J1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    data8C = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='M2:M1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    data9C = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='P2:P1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    data10C = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='S2:S1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    with open('stats' + str(today) + '.csv', 'w', newline='') as csvfile:
+        spamwriter = csv.writer(csvfile, delimiter=' ', quotechar=' ', quoting=csv.QUOTE_MINIMAL)
+
+        spamwriter.writerow(['5C'])
+        spamwriter.writerow(i[0] for i in data5C['values'])
+
+        spamwriter.writerow(['6C'])
+        spamwriter.writerow(i[0] for i in data6C['values'])
+
+        spamwriter.writerow(['6T'])
+        spamwriter.writerow(i[0] for i in data6T['values'])
+
+        spamwriter.writerow(['7C'])
+        spamwriter.writerow(i[0] for i in data7C['values'])
+
+        spamwriter.writerow(['8C'])
+        spamwriter.writerow(i[0] for i in data8C['values'])
+
+        spamwriter.writerow(['9C'])
+        spamwriter.writerow(i[0] for i in data9C['values'])
+
+        spamwriter.writerow(['10C'])
+        spamwriter.writerow(i[0] for i in data10C['values'])
 
 
 def clearGoogleSheet():
@@ -62,7 +141,7 @@ def editGoogleSheet(name, clas, crr_row=crr_row):
     dtString = now.strftime('%H:%M:%S')
 
     values = (
-        (name, dtString),
+        (name, dtString, 'LEFT'),
     )
 
     values_range_body = {
@@ -72,19 +151,35 @@ def editGoogleSheet(name, clas, crr_row=crr_row):
 
     data = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id,
-        range=f'{letter}1:{letter}1000',
+        range=f'{letter}2:{letter}1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    data_entry = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range=f'{chr(ord(letter) + 2)}2:{chr(ord(letter) + 2)}1000',
         majorDimension='ROWS'
     ).execute()
 
     if 'values' in data:
-        crr_row = len(data['values']) + 1
+        crr_row = len(data['values']) + 2
 
-        res = service.spreadsheets().values().update(
-            spreadsheetId=spreadsheet_id,
-            valueInputOption='USER_ENTERED',
-            range=letter + str(crr_row),
-            body=values_range_body
-        ).execute()
+        if [name, ] in data['values']:
+            if data_entry['values'][data['values'].index([name, ])] != [values[0][2], ]:
+                res = service.spreadsheets().values().update(
+                    spreadsheetId=spreadsheet_id,
+                    valueInputOption='USER_ENTERED',
+                    range=letter + str(crr_row),
+                    body=values_range_body
+                ).execute()
+
+        else:
+            res = service.spreadsheets().values().update(
+                spreadsheetId=spreadsheet_id,
+                valueInputOption='USER_ENTERED',
+                range=letter + str(crr_row),
+                body=values_range_body
+            ).execute()
 
     else:
         res = service.spreadsheets().values().update(
@@ -115,8 +210,9 @@ pTime = 0
 
 while True:
     now = datetime.now()
-    
+
     if now.strftime('%H') == '22':
+        get_data()
         clearGoogleSheet()
         sys.exit()
     
