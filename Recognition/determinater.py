@@ -7,6 +7,8 @@ import time
 from oauth2client.service_account import ServiceAccountCredentials
 import httplib2
 import googleapiclient.discovery
+import sys
+
 
 path = 'determinating_photos'
 images = []
@@ -20,7 +22,32 @@ for cl in myList:
     classNames.append(os.path.splitext(cl)[0])
 
 
-def editGoogleSheet(name):
+def clearGoogleSheet():
+    CREDENTIALS_FILE = 'creds.json'
+    spreadsheet_id = '11k5_jgmYdJNwUJcA_rx3IobWZB-WYl9koJogkNODPRU'
+
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE,
+                                                                   ['https://www.googleapis.com/auth/spreadsheets',
+                                                                    'https://www.googleapis.com/auth/drive'])
+
+    httpAuth = credentials.authorize(httplib2.Http())
+    service = googleapiclient.discovery.build('sheets', 'v4', http=httpAuth)
+
+    res = service.spreadsheets().values().clear(
+        spreadsheetId=spreadsheet_id,
+        range='A2:X1000'
+    ).execute()
+
+
+def editGoogleSheet(name, clas, crr_row=crr_row):
+    if clas == 'Teacher':
+        letter = 'V'
+    else:
+        if int(clas[0]) > 6 or clas[1] == 'T':
+            clas = str(int(clas[0]) + 1) + clas[1]
+
+        letter = chr(ord("A") + (int(clas[0]) - 5) * 3)
+
     CREDENTIALS_FILE = 'creds.json'
     spreadsheet_id = '11k5_jgmYdJNwUJcA_rx3IobWZB-WYl9koJogkNODPRU'
 
@@ -45,17 +72,25 @@ def editGoogleSheet(name):
 
     data = service.spreadsheets().values().get(
         spreadsheetId=spreadsheet_id,
-        range='A1:A1000',
+        range=f'{letter}1:{letter}1000',
         majorDimension='ROWS'
     ).execute()
 
-    crr_row = len(data['values']) + 1
+    if 'values' in data:
+        crr_row = len(data['values']) + 1
 
-    if [name, ] not in data['values']:
         res = service.spreadsheets().values().update(
             spreadsheetId=spreadsheet_id,
             valueInputOption='USER_ENTERED',
-            range='A' + str(crr_row),
+            range=letter + str(crr_row),
+            body=values_range_body
+        ).execute()
+
+    else:
+        res = service.spreadsheets().values().update(
+            spreadsheetId=spreadsheet_id,
+            valueInputOption='USER_ENTERED',
+            range=letter + str(crr_row),
             body=values_range_body
         ).execute()
 
@@ -79,6 +114,12 @@ cap = cv2.VideoCapture(0)
 pTime = 0
 
 while True:
+    now = datetime.now()
+    
+    if now.strftime('%H') == '22':
+        clearGoogleSheet()
+        sys.exit()
+    
     success, img = cap.read()
 
     cTime = time.time()
@@ -106,9 +147,9 @@ while True:
             y1, x2, y2, x1 = y1 * 4, x2 * 4, y2 * 4, x1 * 4
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.rectangle(img, (x1, y2 - 35), (x2, y2), (0, 255, 0), cv2.FILLED)
-            cv2.putText(img, name, (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+            cv2.putText(img, name.split('_')[0], (x1 + 6, y2 - 6), cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
 
-            editGoogleSheet(name)
+            editGoogleSheet(name.split('_')[0], name.split('_')[1])
 
     cv2.imshow('Webcam', img)
     cv2.waitKey(1)
