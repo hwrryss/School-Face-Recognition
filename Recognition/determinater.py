@@ -30,7 +30,7 @@ def get_data():
     credentials = ServiceAccountCredentials.from_json_keyfile_name(CREDENTIALS_FILE, ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive'])
 
     httpAuth = credentials.authorize(httplib2.Http())
-    service = googleapiclient.discovery.build('sheets', 'v4', http = httpAuth)
+    service = googleapiclient.discovery.build('sheets', 'v4', http=httpAuth)
 
     today = date.today()
 
@@ -248,4 +248,4 @@ while True:
             editGoogleSheet(name.split('_')[0], name.split('_')[1])
 
     cv2.imshow('Webcam', img)
-    cv2.waitKey(1)
+    cv2.waitKey(500)
