@@ -7,7 +7,10 @@ from datetime import datetime
 import time
 import gsModule
 import rcModule
+import cpModule
 
+
+cpModule.cropPhotos()
 
 path = 'samples'
 images = []
@@ -18,6 +21,8 @@ myList = os.listdir(path)
 for cl in myList:
     images.append(cv2.imread(f'{path}/{cl}'))
     classNames.append(os.path.splitext(cl)[0])
+
+print(classNames)
 
 
 def findEncoding(images):
