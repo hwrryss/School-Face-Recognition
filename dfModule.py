@@ -64,23 +64,19 @@ def startup(encodeListKnown, classNames):
         if now.strftime('%H') == '22':
             rcModule.createReport()
             gsModule.clearGoogleSheet()
+            dbm.deleteAllImages()
             sys.exit()
 
         success, img = cap.read()
 
         last_time, i = detector.findFaces(img, i, last_time)
 
-        print(time.time() - last_time)
-
-        if time.time() - last_time > 3:
+        if time.time() - last_time > 30:
             facePhotos, detectionTimes = dbm.selectBunch()
             dbm.deleteBunch()
 
             i -= len(facePhotos)
 
             asyncio.run(transfer(encodeListKnown, classNames, facePhotos, detectionTimes))
-
-            # for j in range(len(facePhotos)):
-            #    frModule.determinating(encodeListKnown, classNames, facePhotos[j], detectionTimes[j])
 
         cv2.waitKey(300)

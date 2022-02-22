@@ -66,3 +66,8 @@ def deleteBunch():
     data = (tsp - 1, tsp)
 
     cur.execute(query, data)
+
+
+def deleteAllImages():
+    cur.execute("""DELETE FROM images""")
+    con.commit()
