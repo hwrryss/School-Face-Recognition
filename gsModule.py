@@ -57,7 +57,13 @@ def getClassData():
         majorDimension='ROWS'
     ).execute()
 
-    return data5C, data6C, data6T, data7C, data8C, data9C, data10C
+    dataTeachers = service.spreadsheets().values().get(
+        spreadsheetId=spreadsheet_id,
+        range='V2:V1000',
+        majorDimension='ROWS'
+    ).execute()
+
+    return data5C, data6C, data6T, data7C, data8C, data9C, data10C, dataTeachers
 
 
 def editGoogleSheet(name, clas, dtString, crr_row=crr_row):
