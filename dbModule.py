@@ -39,7 +39,7 @@ def selectBunch():
     query = """SELECT photo,time FROM images WHERE sub > ? AND sub <= ?"""
 
     tsp = checkLength()
-    data = (tsp - 10, tsp)
+    data = (tsp - 1, tsp)
 
     cur.execute(query, data)
     result = cur.fetchall()
@@ -63,6 +63,6 @@ def deleteBunch():
     query = """DELETE FROM images WHERE sub > ? AND sub <= ?"""
 
     tsp = checkLength()
-    data = (tsp - 10, tsp)
+    data = (tsp - 1, tsp)
 
     cur.execute(query, data)

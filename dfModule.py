@@ -40,6 +40,13 @@ class FaceDetector:
         return last_time, i
 
 
+async def transfer(encodeListKnown, classNames, facePhotos, detectionTimes):
+    await asyncio.gather(*[
+        asyncio.to_thread(frModule.determinating, encodeListKnown, classNames, facePhotos[j], detectionTimes[j])
+        for j in range(len(facePhotos))
+    ])
+
+
 def startup(encodeListKnown, classNames):
     dbm.createTable()
 
@@ -71,7 +78,9 @@ def startup(encodeListKnown, classNames):
 
             i -= len(facePhotos)
 
-            for j in range(len(facePhotos)):
-                frModule.determinating(encodeListKnown, classNames, facePhotos[j], detectionTimes[j])
+            asyncio.run(transfer(encodeListKnown, classNames, facePhotos, detectionTimes))
+
+            # for j in range(len(facePhotos)):
+            #    frModule.determinating(encodeListKnown, classNames, facePhotos[j], detectionTimes[j])
 
         cv2.waitKey(300)
