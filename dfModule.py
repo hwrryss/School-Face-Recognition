@@ -69,10 +69,9 @@ def startup(encodeListKnown, classNames):
             facePhotos, detectionTimes = dbm.selectBunch()
             dbm.deleteBunch()
 
-            #asyncio.gather(*[frModule.determinating(encodeListKnown, classNames, facePhotos[j], detectionTimes[j])
-            #                 for j in range(len(facePhotos))])
+            i -= len(facePhotos)
 
-            for i in range(len(facePhotos)):
-                frModule.determinating(encodeListKnown, classNames, facePhotos[i], detectionTimes[i])
+            for j in range(len(facePhotos)):
+                frModule.determinating(encodeListKnown, classNames, facePhotos[j], detectionTimes[j])
 
         cv2.waitKey(300)
