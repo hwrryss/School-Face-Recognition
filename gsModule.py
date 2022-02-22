@@ -60,7 +60,7 @@ def getClassData():
     return data5C, data6C, data6T, data7C, data8C, data9C, data10C
 
 
-def editGoogleSheet(name, clas, crr_row=crr_row):
+def editGoogleSheet(name, clas, dtString, crr_row=crr_row):
     if clas == 'Teacher':
         letter = 'V'
     else:
@@ -78,9 +78,6 @@ def editGoogleSheet(name, clas, crr_row=crr_row):
 
     httpAuth = credentials.authorize(httplib2.Http())
     service = googleapiclient.discovery.build('sheets', 'v4', http=httpAuth)
-
-    now = datetime.now()
-    dtString = now.strftime('%H:%M:%S')
 
     values = (
         (name, dtString, 'LEFT'),

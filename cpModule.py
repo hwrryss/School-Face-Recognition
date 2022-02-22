@@ -19,7 +19,6 @@ def cropPhotos():
         for faceLoc in facesCurFrame:
             y1, x2, y2, x1 = faceLoc
 
-            cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
             crop_img = img[y1:y2, x1:x2]
 
             cv2.imwrite(f"{path}/{className}.jpg", crop_img)
