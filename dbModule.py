@@ -29,17 +29,6 @@ def insertImage(photo):
     con.commit()
 
 
-def checkLength():
-    query = """SELECT sub FROM images"""
-    cur.execute(query)
-
-    result = cur.fetchall()
-
-    con.commit()
-
-    return len(result)
-
-
 def selectBunch():
     query = """SELECT photo,time FROM images ORDER BY sub ASC LIMIT 1"""
 

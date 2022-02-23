@@ -11,9 +11,6 @@ def determinating(encodeListKnown, classNames, j):
 
     while True:
         time.sleep(0.5)
-        #print(time.strftime('%X'))
-
-        last_time = time.time()
 
         facePhotos, detectionTimes = dbm.selectBunch()
         dbm.deleteBunch()
@@ -37,15 +34,11 @@ def determinating(encodeListKnown, classNames, j):
                 if matches[matchIndex]:
                     name = classNames[matchIndex].upper()
 
-                    #print(f'recognize - {time.time() - last_time}')
-
                     last_time = time.time()
 
                     time.sleep(0.5)
 
                     gsModule.editGoogleSheet(name.split('_')[0], name.split('_')[1], detectionTime)
-
-                    #print(f'send - {time.time() - last_time}')
 
         except:
             pass

@@ -49,7 +49,6 @@ def startup():
     detector = FaceDetector()
 
     while True:
-        #print(time.strftime('%X'))
         last_time = time.time()
         now = datetime.now()
 
@@ -62,7 +61,5 @@ def startup():
         success, img = cap.read()
 
         detector.findFaces(img)
-
-        #print(f'detect - {time.time() - last_time}')
 
         cv2.waitKey(1000)
