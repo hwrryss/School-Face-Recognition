@@ -16,7 +16,7 @@ class FaceDetector:
         self.mpFaceDetection = mp.solutions.face_detection
         self.faceDetection = self.mpFaceDetection.FaceDetection(self.minDetectionCon)
 
-    def findFaces(self, img, i, last_time, draw=True):
+    def findFaces(self, img, draw=True):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.result = self.faceDetection.process(imgRGB)
 
@@ -31,37 +31,29 @@ class FaceDetector:
                 img = img[y1:y2, x1:x2]
 
                 _, facePhoto = cv2.imencode('.jpg', img)
-                dbm.insertImage(i, facePhoto)
-
-                i += 1
-
-                last_time = time.time()
-
-        return last_time, i
+                dbm.insertImage(facePhoto)
 
 
-async def transfer(encodeListKnown, classNames, facePhotos, detectionTimes):
-    await asyncio.gather(*[
-        asyncio.to_thread(frModule.determinating, encodeListKnown, classNames, facePhotos[j], detectionTimes[j])
-        for j in range(len(facePhotos))
-    ])
+async def combining(encodeListKnown, classNames):
+    await asyncio.gather(
+        *[asyncio.to_thread(frModule.determinating, encodeListKnown, classNames, j)
+          for j in range(1)],
+
+        asyncio.to_thread(startup)
+    )
 
 
-def startup(encodeListKnown, classNames):
-    dbm.createTable()
-
+def startup():
     cap = cv2.VideoCapture(0)
+
     detector = FaceDetector()
-    last_time = time.time()
-
-    i = dbm.checkLength() + 1
-
-    time.sleep(1)
 
     while True:
+        #print(time.strftime('%X'))
+        last_time = time.time()
         now = datetime.now()
 
-        if now.strftime('%H') == '22':
+        if now.strftime('%H') > '22':
             rcModule.createReport()
             gsModule.clearGoogleSheet()
             dbm.deleteAllImages()
@@ -69,14 +61,8 @@ def startup(encodeListKnown, classNames):
 
         success, img = cap.read()
 
-        last_time, i = detector.findFaces(img, i, last_time)
+        detector.findFaces(img)
 
-        if time.time() - last_time > 30:
-            facePhotos, detectionTimes = dbm.selectBunch()
-            dbm.deleteBunch()
+        #print(f'detect - {time.time() - last_time}')
 
-            i -= len(facePhotos)
-
-            asyncio.run(transfer(encodeListKnown, classNames, facePhotos, detectionTimes))
-
-        cv2.waitKey(300)
+        cv2.waitKey(1000)

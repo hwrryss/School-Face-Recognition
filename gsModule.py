@@ -69,6 +69,7 @@ def getClassData():
 def editGoogleSheet(name, clas, dtString, crr_row=crr_row):
     if clas == 'Teacher':
         letter = 'V'
+
     else:
         if int(clas[0]) > 6 or clas[1] == 'T':
             clas = str(int(clas[0]) + 1) + clas[1]
@@ -110,7 +111,7 @@ def editGoogleSheet(name, clas, dtString, crr_row=crr_row):
         crr_row = len(data['values']) + 2
 
         if [name, ] in data['values']:
-            if data_entry['values'][data['values'].index([name, ])] != [values[0][2], ]:
+            if data_entry['values'][len(data['values']) - data['values'][::-1].index([name, ]) - 1] != [values[0][2], ]:
                 res = service.spreadsheets().values().update(
                     spreadsheetId=spreadsheet_id,
                     valueInputOption='USER_ENTERED',

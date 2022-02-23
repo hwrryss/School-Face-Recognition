@@ -2,9 +2,10 @@ import sqlite3
 import cv2
 import numpy as np
 from datetime import datetime
+import calendar
 
 
-con = sqlite3.connect('SFR.db')
+con = sqlite3.connect('SFR.db', check_same_thread=False)
 cur = con.cursor()
 
 
@@ -13,12 +14,16 @@ def createTable():
     con.commit()
 
 
-def insertImage(sub, photo):
+def insertImage(photo):
     query = """ INSERT INTO images(sub, photo, time) VALUES (?, ?, ?)"""
 
     time = datetime.now().strftime("%H:%M:%S")
     blobPhoto = photo
-    data = (sub, blobPhoto, time)
+
+    d = datetime.utcnow()
+    unixtime = calendar.timegm(d.utctimetuple())
+
+    data = (unixtime, blobPhoto, time)
 
     cur.execute(query, data)
     con.commit()
@@ -36,12 +41,9 @@ def checkLength():
 
 
 def selectBunch():
-    query = """SELECT photo,time FROM images WHERE sub > ? AND sub <= ?"""
+    query = """SELECT photo,time FROM images ORDER BY sub ASC LIMIT 1"""
 
-    tsp = checkLength()
-    data = (tsp - 1, tsp)
-
-    cur.execute(query, data)
+    cur.execute(query)
     result = cur.fetchall()
 
     detectionTimes = []
@@ -60,12 +62,9 @@ def selectBunch():
 
 
 def deleteBunch():
-    query = """DELETE FROM images WHERE sub > ? AND sub <= ?"""
+    query = """DELETE FROM images WHERE sub in (SELECT sub FROM images ORDER BY sub ASC LIMIT 1)"""
 
-    tsp = checkLength()
-    data = (tsp - 1, tsp)
-
-    cur.execute(query, data)
+    cur.execute(query)
 
 
 def deleteAllImages():

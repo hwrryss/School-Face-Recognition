@@ -1,11 +1,15 @@
 import face_recognition
 import cv2
+import asyncio
 import os
 from datetime import datetime
 import cpModule
 import dfModule
+import dbModule as dbm
 
 cpModule.cropPhotos()
+
+dbm.createTable()
 
 path = 'samples'
 images = []
@@ -36,4 +40,4 @@ while True:
     now = datetime.now()
 
     if 22 > int(now.strftime('%H')) > 7:
-        dfModule.startup(encodeListKnown, classNames)
+        asyncio.run(dfModule.combining(encodeListKnown, classNames))
