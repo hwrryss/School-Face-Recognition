@@ -29,10 +29,11 @@ def insertImage(photo):
     con.commit()
 
 
-def selectBunch():
-    query = """SELECT photo,time FROM images ORDER BY sub ASC LIMIT 1"""
+def selectBunch(recognisers):
+    query = """SELECT photo,time FROM images ORDER BY sub ASC LIMIT ?"""
+    data = (recognisers, )
 
-    cur.execute(query)
+    cur.execute(query, data)
     result = cur.fetchall()
 
     detectionTimes = []
@@ -50,10 +51,11 @@ def selectBunch():
     return facePhotos, detectionTimes
 
 
-def deleteBunch():
-    query = """DELETE FROM images WHERE sub in (SELECT sub FROM images ORDER BY sub ASC LIMIT 1)"""
+def deleteBunch(recognisers):
+    query = """DELETE FROM images WHERE sub in (SELECT sub FROM images ORDER BY sub ASC LIMIT ?)"""
+    data = (recognisers, )
 
-    cur.execute(query)
+    cur.execute(query, data)
 
 
 def deleteAllImages():

@@ -39,5 +39,7 @@ encodeListKnown = findEncoding(images)
 while True:
     now = datetime.now()
 
+    recognisers = 2
+
     if 22 > int(now.strftime('%H')) > 7:
-        asyncio.run(dfModule.combining(encodeListKnown, classNames))
+        asyncio.run(dfModule.combining(encodeListKnown, classNames, recognisers))

@@ -16,10 +16,11 @@ def createReport():
         '8C': [i for i in set(sum(data8C['values'], []))] if data8C.get('values', False) != False else [],
         '9C': [i for i in set(sum(data9C['values'], []))] if data9C.get('values', False) != False else [],
         '10C': [i for i in set(sum(data10C['values'], []))] if data10C.get('values', False) != False else [],
-        'Teachers': [i for i in set(sum(dataTeachers['values'], []))] if dataTeachers.get('values', False) != False else []
+        'Teachers': [i for i in set(sum(dataTeachers['values'], []))] if dataTeachers.get('values',
+                                                                                          False) != False else []
     }
 
     df = pd.DataFrame.from_dict(d, orient='index')
     df = df.transpose()
 
-    df.to_csv('Attendance/'+'stats' + str(today) + '.csv')
+    df.to_csv('Attendance/' + 'stats' + str(today) + '.csv')

@@ -1,7 +1,6 @@
 import cv2
 import mediapipe as mp
 import sys
-import time
 from datetime import datetime
 import gsModule
 import rcModule
@@ -16,7 +15,7 @@ class FaceDetector:
         self.mpFaceDetection = mp.solutions.face_detection
         self.faceDetection = self.mpFaceDetection.FaceDetection(self.minDetectionCon)
 
-    def findFaces(self, img, draw=True):
+    def findFaces(self, img):
         imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
         self.result = self.faceDetection.process(imgRGB)
 
@@ -34,12 +33,11 @@ class FaceDetector:
                 dbm.insertImage(facePhoto)
 
 
-async def combining(encodeListKnown, classNames):
+async def combining(encodeListKnown, classNames, recognisers):
     await asyncio.gather(
-        *[asyncio.to_thread(frModule.determinating, encodeListKnown, classNames, j)
-          for j in range(1)],
-
-        asyncio.to_thread(startup)
+        *[asyncio.to_thread(frModule.determinating, encodeListKnown, classNames, recogniser, recognisers)
+          for recogniser in range(recognisers)],
+        asyncio.to_thread(startup),
     )
 
 
@@ -49,7 +47,6 @@ def startup():
     detector = FaceDetector()
 
     while True:
-        last_time = time.time()
         now = datetime.now()
 
         if now.strftime('%H') > '22':

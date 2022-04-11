@@ -6,17 +6,17 @@ import gsModule
 import dbModule as dbm
 
 
-def determinating(encodeListKnown, classNames, j):
+def determinating(encodeListKnown, classNames, recogniser, recognisers):
     time.sleep(0.5)
 
     while True:
         time.sleep(0.5)
 
-        facePhotos, detectionTimes = dbm.selectBunch()
-        dbm.deleteBunch()
+        facePhotos, detectionTimes = dbm.selectBunch(recognisers)
+        dbm.deleteBunch(recognisers)
 
         try:
-            facePhoto, detectionTime = facePhotos[j], detectionTimes[j]
+            facePhoto, detectionTime = facePhotos[recogniser], detectionTimes[recogniser]
 
             img = facePhoto
 
@@ -33,8 +33,6 @@ def determinating(encodeListKnown, classNames, j):
 
                 if matches[matchIndex]:
                     name = classNames[matchIndex].upper()
-
-                    last_time = time.time()
 
                     time.sleep(0.5)
 
