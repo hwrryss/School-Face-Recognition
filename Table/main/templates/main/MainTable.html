@@ -1,0 +1,55 @@
+{% extends 'main/base.html' %}
+
+{% block title %}S_recognised{% endblock %}
+
+{% block content %}
+
+<h1>S_recognised</h1>
+
+
+<a href="/admin/main/maintable/add/"><button class="btn btn-success"><i class="fas fa-plus"></i>Add person</button></a>
+<a href="/admin"><button type="button" class="btn btn-primary"><i class="fas fa-user-lock"></i>Log in to the admin</button></a>
+
+{% if table %}
+    <table class="table table-striped">
+
+        <thead>
+           <tr>
+
+               <th class="th-sm">
+                   Grade
+               </th>
+
+               <th class="th-sm">
+                   Name
+               </th>
+
+               <th class="th-sm">
+                   Time
+               </th>
+
+               <th class="th-sm">
+                   Status
+               </th>
+
+              </tr>
+        </thead>
+
+        <tbody>
+            {% for row in table %}
+                <tr>
+                    <td> {{ row.grade }} </td>
+                    <td> {{ row.name }} </td>
+                    <td> {{ row.time|time:"H:i:s" }} </td>
+                    <td> {{ row.status }} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+{% else %}
+    <p>So far, no one has come</p>
+{% endif %}
+
+{% endblock %}

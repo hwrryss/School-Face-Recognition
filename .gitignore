@@ -1,6 +1,10 @@
 Attendance
 samples
+Table/main/migrations
 .DS_Store
 creds.json
 SFR.db
+Table/db.sqlite3
+jwt_creds.py
+Table/main/jwt_creds.py
 
