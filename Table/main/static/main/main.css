@@ -5,15 +5,15 @@ a {
 }
 
 h1 {
+    color: #FFFFFF;
     text-align: center;
     margin-top: 3vh;
-
-
 }
 
 button {
     float: left;
     margin-right: 2vw;
+    margin-top: 2vh;
 }
 
 .btn-success {
@@ -21,9 +21,61 @@ button {
 }
 
 .table-striped {
-    margin-top: -7vh;
-    margin-left: 3vw;
+    background-color: #fff7e6;
+    margin-top: 10vh;
+    margin-left: 21vw;
     border-collapse: collapse;
-    width: 90vw;
+    width: 78vw;
     margin-bottom: 5vh;
 }
+
+body {
+    background: #2c2c2c;
+}
+
+aside {
+    position: sticky;
+    top: 0px;
+    height: 100vh;
+    float: left;
+    background: #181818;
+    margin-top: -3vh;
+    margin-bottom: -5vh;
+    width: 20%;
+    padding: 2.5%;
+    color: #fff;
+    border-right: 5px solid #4d4d4d;
+}
+
+
+aside .logo {
+    font-size: 30px;
+    margin-left: 10px;
+    font-weight: bold;
+    position: relative;
+    top: 13px;
+}
+
+aside h3 {
+    margin-top: 50px;
+    font-size: 30px;
+}
+
+aside ul {
+    list-style: none;
+}
+
+aside ul li {
+    color: #fff;
+    display: block;
+    margin-top: 15px;
+    transition: transform .6s ease;
+}
+
+aside ul li:hover, aside ul a:hover {
+    color: #eb5959;
+    text-decoration: none;
+    transform: scale(1.05);
+}
+
+

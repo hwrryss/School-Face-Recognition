@@ -35,7 +35,7 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
                 matchIndex = np.argmin(faceDis)
 
                 if matches[matchIndex]:
-                    name = classNames[matchIndex].upper()
+                    name = classNames[matchIndex]
 
                     time.sleep(0.5)
 

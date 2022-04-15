@@ -22,7 +22,7 @@ class MainTable(models.Model):
 
     grade = models.CharField(_('Grade'), max_length=50, choices=GradeChoice.choices, default=GradeChoice.fifth_C)
     name = models.CharField(_('LFM Names'), max_length=50)
-    time = models.TimeField(_('Time'), auto_now=True)
+    time = models.TimeField(_('Time'))
     status = models.CharField(_('Status'), max_length=50, choices=StatusChoice.choices, default=StatusChoice.entered)
 
     def __str__(self):
