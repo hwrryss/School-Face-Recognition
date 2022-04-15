@@ -9,7 +9,6 @@ from .jwt_creds import jwtpayload, jwtkey
 
 from .check_requests import check_request
 
-
 def TablePage(request):
     table = MainTable.objects.order_by('grade', 'name', 'time', 'status')
 
