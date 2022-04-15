@@ -1,6 +1,9 @@
 Attendance
 samples
 Table/main/migrations
+__pycache__
+Table/main/__pycache__
+Table/Table/__pycache__
 .DS_Store
 creds.json
 SFR.db
