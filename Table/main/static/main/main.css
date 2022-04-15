@@ -1,0 +1,29 @@
+a {
+    text-decoration: none;
+    color: black;
+    float: left;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 3vh;
+
+
+}
+
+button {
+    float: left;
+    margin-right: 2vw;
+}
+
+.btn-success {
+    margin-left: 3vw;
+}
+
+.table-striped {
+    margin-top: -7vh;
+    margin-left: 3vw;
+    border-collapse: collapse;
+    width: 90vw;
+    margin-bottom: 5vh;
+}

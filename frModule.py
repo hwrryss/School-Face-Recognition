@@ -4,6 +4,9 @@ import numpy as np
 import time
 import gsModule
 import dbModule as dbm
+from sender import sendData
+
+import random
 
 
 def determinating(encodeListKnown, classNames, recogniser, recognisers):
@@ -36,7 +39,9 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
 
                     time.sleep(0.5)
 
-                    gsModule.editGoogleSheet(name.split('_')[0], name.split('_')[1], detectionTime)
+                    sendData(name.split('_')[1], name.split('_')[0], detectionTime, random.choice(['Entered', 'Left']))
+                    #gsModule.editGoogleSheet(name.split('_')[0], name.split('_')[1], detectionTime)
+
 
         except:
             pass
