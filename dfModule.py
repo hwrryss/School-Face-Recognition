@@ -2,10 +2,10 @@ import cv2
 import mediapipe as mp
 import sys
 from datetime import datetime
-import gsModule
 import rcModule
 import frModule
 import dbModule as dbm
+import sender
 import asyncio
 
 
@@ -51,7 +51,7 @@ def startup():
 
         if now.strftime('%H') > '22':
             rcModule.createReport()
-            gsModule.clearGoogleSheet()
+            sender.sendData('', '', '', '', 'delete')
             dbm.deleteAllImages()
             sys.exit()
 

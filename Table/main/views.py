@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from .models import MainTable
 
-from django.http import HttpResponse
+from django.core import serializers
+from django.http import HttpResponse, JsonResponse
+import json
 
 import jwt
-import json
 from .jwt_creds import jwtpayload, jwtkey
 
 from .check_requests import check_request
@@ -21,15 +22,25 @@ def api(request):
 
     if 'jwt' in request.COOKIES.keys():
         if request.COOKIES['jwt'] == checkJWT:
-            table = MainTable.objects.order_by('grade', 'name', 'time', 'status')
+            if request.COOKIES['action'] == 'gather':
+                data = MainTable.objects.all()
+                data = serializers.serialize("json", data)
 
-            data = json.loads(request.body.decode("utf-8"))
-            name = data["Name"]
-            grade = data["Grade"]
-            time = data["Time"]
-            status = data["Status"]
+                return HttpResponse(data, content_type="application/json")
 
-            if check_request(table, name, status):
-                MainTable.objects.bulk_create([MainTable(grade=grade, name=name, time=time, status=status)])
+            if request.COOKIES['action'] == 'delete':
+                MainTable.objects.all().delete()
+
+            if request.COOKIES['action'] == 'add':
+                table = MainTable.objects.order_by('grade', 'name', 'time', 'status')
+
+                data = json.loads(request.body.decode("utf-8"))
+                name = data["Name"]
+                grade = data["Grade"]
+                time = data["Time"]
+                status = data["Status"]
+
+                if check_request(table, name, status):
+                    MainTable.objects.bulk_create([MainTable(grade=grade, name=name, time=time, status=status)])
 
     return HttpResponse('<h1>API moment</h1>')

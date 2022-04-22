@@ -1,10 +1,10 @@
 from datetime import date
-import gsModule
 import pandas as pd
+import tgModule
 
 
 def createReport():
-    data5C, data6C, data6T, data7C, data8C, data9C, data10C, dataTeachers = gsModule.getClassData()
+    data5C, data6C, data6T, data7C, data8C, data9C, data10C, dataTeachers = tgModule.getClassData()
 
     today = date.today()
 

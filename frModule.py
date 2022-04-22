@@ -2,7 +2,6 @@ import cv2
 import face_recognition
 import numpy as np
 import time
-import gsModule
 import dbModule as dbm
 from sender import sendData
 
@@ -38,9 +37,8 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
                     name = classNames[matchIndex]
 
                     time.sleep(0.5)
-
-                    sendData(name.split('_')[1], name.split('_')[0], detectionTime, random.choice(['Entered', 'Left']))
-                    #gsModule.editGoogleSheet(name.split('_')[0], name.split('_')[1], detectionTime)
+                    sendData(name.split('_')[1], name.split('_')[0], detectionTime,
+                             random.choice(['Entered', 'Left']), 'add')
 
 
         except:
