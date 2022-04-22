@@ -2,7 +2,7 @@ from django.shortcuts import render
 from .models import MainTable
 
 from django.core import serializers
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 import json
 
 import jwt
