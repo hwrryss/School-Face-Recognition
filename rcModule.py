@@ -9,15 +9,14 @@ def createReport():
     today = date.today()
 
     d = {
-        '5C': [i for i in set(sum(data5C['values'], []))] if data5C.get('values', False) != False else [],
-        '6C': [i for i in set(sum(data6C['values'], []))] if data6C.get('values', False) != False else [],
-        '6T': [i for i in set(sum(data6T['values'], []))] if data6T.get('values', False) != False else [],
-        '7C': [i for i in set(sum(data7C['values'], []))] if data7C.get('values', False) != False else [],
-        '8C': [i for i in set(sum(data8C['values'], []))] if data8C.get('values', False) != False else [],
-        '9C': [i for i in set(sum(data9C['values'], []))] if data9C.get('values', False) != False else [],
-        '10C': [i for i in set(sum(data10C['values'], []))] if data10C.get('values', False) != False else [],
-        'Teachers': [i for i in set(sum(dataTeachers['values'], []))] if dataTeachers.get('values',
-                                                                                          False) != False else []
+        '5C': [i for i in data5C] if data5C != False else [],
+        '6C': [i for i in data6C] if data6C != False else [],
+        '6T': [i for i in data6T] if data6T != False else [],
+        '7C': [i for i in data7C] if data7C != False else [],
+        '8C': [i for i in data8C] if data8C != False else [],
+        '9C': [i for i in data9C] if data9C != False else [],
+        '10C': [i for i in data10C] if data10C != False else [],
+        'Teachers': [i for i in dataTeachers] if dataTeachers != False else []
     }
 
     df = pd.DataFrame.from_dict(d, orient='index')
