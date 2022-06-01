@@ -9,7 +9,7 @@ import random
 
 
 def determinating(encodeListKnown, classNames, recogniser, recognisers):
-    time.sleep(0.5)
+    time.sleep(1)
 
     while True:
         time.sleep(0.5)
@@ -22,7 +22,7 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
 
             img = facePhoto
 
-            imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
+            imgS = cv2.resize(img, (0, 0), None, 0.5, 0.5)
             imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
 
             encodeCurFrame = face_recognition.face_encodings(imgS)

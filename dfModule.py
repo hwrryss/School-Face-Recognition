@@ -10,7 +10,7 @@ import asyncio
 
 
 class FaceDetector:
-    def __init__(self, minDetectionCon=0.8):
+    def __init__(self, minDetectionCon=0.7):
         self.minDetectionCon = minDetectionCon
         self.mpFaceDetection = mp.solutions.face_detection
         self.faceDetection = self.mpFaceDetection.FaceDetection(self.minDetectionCon)
@@ -29,8 +29,9 @@ class FaceDetector:
 
                 img = img[y1:y2, x1:x2]
 
-                _, facePhoto = cv2.imencode('.jpg', img)
-                dbm.insertImage(facePhoto)
+                if len(img) != 0:
+                    _, facePhoto = cv2.imencode('.jpg', img)
+                    dbm.insertImage(facePhoto)
 
 
 async def combining(encodeListKnown, classNames, recognisers):
