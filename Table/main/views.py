@@ -18,13 +18,15 @@ from . import rcModule
 def TablePage(request):
     context = {}
     context['table'] = MainTable.objects.order_by('grade', 'name', 'time', 'status')
+    print(MainTable.objects.order_by('grade', 'name', 'time', 'status'))
 
     colors = []
     table = context['table'].values()
     table = pd.DataFrame(table).to_dict(orient="list")
 
-    for status in table['status']:
-        colors.append('#E35C5C') if status == 'Left' else colors.append('#94E35C') #yellow - '#E3CF5C'
+    if table:
+        for status in table['status']:
+            colors.append('#E35C5C') if status == 'Left' else colors.append('#94E35C') #yellow - '#E3CF5C'
 
     context['colors'] = colors
 
@@ -32,7 +34,7 @@ def TablePage(request):
         req = request.GET['grade']
         context['table'].filter(name=req.split()[1]).update(grade=req.split()[0])
 
-    return render(request, 'main/MainTable.html', {'table': zip(context['table'], context['colors'])})
+    return render(request, 'main/MainTable.html', {'table': zip(context['table'], context['colors'])} if colors else {})
 
 
 def api(request):

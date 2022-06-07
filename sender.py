@@ -11,6 +11,3 @@ def sendData(Grade, Name, Time, Status, Action):
     cookies = {"jwt": token, "action": Action}
 
     requests.get(url, json={'Grade': Grade, "Name": Name, "Time": Time, "Status": Status}, cookies=cookies)
-
-
-sendData('', '', '', '', 'report')

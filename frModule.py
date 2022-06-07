@@ -5,8 +5,6 @@ import time
 import dbModule as dbm
 from sender import sendData
 
-import random
-
 
 def determinating(encodeListKnown, classNames, recogniser, recognisers):
     time.sleep(1)
@@ -14,11 +12,11 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
     while True:
         time.sleep(0.5)
 
-        facePhotos, detectionTimes = dbm.selectBunch(recognisers)
+        facePhotos, detectionTimes, statuses = dbm.selectBunch(recognisers)
         dbm.deleteBunch(recognisers)
 
         try:
-            facePhoto, detectionTime = facePhotos[recogniser], detectionTimes[recogniser]
+            facePhoto, detectionTime, status = facePhotos[recogniser], detectionTimes[recogniser], statuses[recognisers]
 
             img = facePhoto
 
@@ -38,7 +36,7 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
 
                     time.sleep(0.5)
                     sendData(name.split('_')[1], name.split('_')[0], detectionTime,
-                             random.choice(['Entered', 'Left']), 'add')
+                             status, 'add')
 
 
         except:
