@@ -51,7 +51,7 @@ def startup():
         now = datetime.now()
 
         if now.strftime('%H') > '22':
-            rcModule.createReport()
+            sender.sendData('', '', '', '', 'report')
             sender.sendData('', '', '', '', 'delete')
             dbm.deleteAllImages()
             sys.exit()

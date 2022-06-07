@@ -21,6 +21,7 @@ button {
     float: left;
     margin-right: 2vw;
     margin-top: 2vh;
+    margin-bottom: 5vh;
 }
 
 .btn-success {
@@ -29,11 +30,9 @@ button {
 
 .table-striped {
     background-color: #fff7e6;
-    margin-top: 10vh;
-    margin-left: 21vw;
     border-collapse: collapse;
     width: 78vw;
-    margin-bottom: 5vh;
+    margin-bottom: -3vh;
 }
 
 body {
@@ -48,6 +47,7 @@ aside {
     background: #181818;
     margin-top: -3vh;
     margin-bottom: -5vh;
+    margin-right: 1vw;
     width: 20%;
     padding: 2.5%;
     color: #fff;

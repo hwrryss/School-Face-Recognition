@@ -11,7 +11,7 @@
 <a href="/admin"><button type="button" class="btn btn-primary"><i class="fas fa-user-lock"></i> Log in to the admin</button></a>
 
 {% if table %}
-    <table class="table table-striped">
+    <table class="table table-striped" id='table'>
 
         <thead>
            <tr>
@@ -36,9 +36,29 @@
         </thead>
 
         <tbody>
-            {% for row in table %}
-                <tr>
-                    <td> {{ row.grade }} </td>
+            {% for row, color in table %}
+                <tr style="background-color:{{ color }}">
+                    <td><form method="GET"><select name="grade" onchange="this.form.submit();">
+                      <option value="none" selected disabled hidden>{{ row.grade }}</option>
+
+                      <option value="5C {{ row.name }}">5C</option>
+
+                      <option value="6C {{ row.name }}">6C</option>
+
+                      <option value="6T {{ row.name }}">6T</option>
+
+                      <option value="7C {{ row.name }}">7C</option>
+
+                      <option value="8C {{ row.name }}">8C</option>
+
+                      <option value="9C {{ row.name }}">9C</option>
+
+                      <option value="10C {{ row.name }}">10C</option>
+
+                      <option value="teacher {{ row.name }}">Teacher</option>
+
+                    </select></form></td>
+
                     <td> {{ row.name }} </td>
                     <td> {{ row.time|time:"H:i:s" }} </td>
                     <td> {{ row.status }} </td>
@@ -51,5 +71,11 @@
 {% else %}
     <p>So far, no one has come</p>
 {% endif %}
+
+<script type="text/javascript">
+setInterval(function updateDiv(){
+    $( "#table" ).load(window.location.href + " #table" );
+}, 3000);
+</script>
 
 {% endblock %}
