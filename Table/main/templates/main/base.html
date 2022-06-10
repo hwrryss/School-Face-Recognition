@@ -14,16 +14,19 @@
 </head>
 <body>
     {% csrf_token %}
-    <aside>
-        <span class="logo">S_recognised</span>
-        <h3>Navigation</h3>
-        <ul>
-            <a href="{% url 'home' %}"><li><i class="fas fa-home"></i> Time Table</li></a>
-        </ul>
-    </aside>
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+
+        <aside>
+            <span class="logo">S_recognised</span>
+            <h3>Navigation</h3>
+            <ul>
+                <a href="{% url 'home' %}"><li><i class="fas fa-home"></i> Time Table</li></a>
+                <br>
+                <a href="{% url 'login' %}"><li><i class="fas fa-sign-in-alt"></i> Login</li></a>
+            </ul>
+        </aside>
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
 </body>
 </html>

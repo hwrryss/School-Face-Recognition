@@ -12,7 +12,6 @@ h1 {
 
 p{
     color: #FFFFFF;
-    font-size: 200%;
     margin-top: 15vh;
     margin-left: 23vw;
 }
@@ -74,8 +73,8 @@ aside ul {
 
 aside ul li {
     color: #fff;
-    display: block;
-    margin-top: 15px;
+    display: inline;
+    margin-top: 2vh;
     transition: transform .6s ease;
 }
 

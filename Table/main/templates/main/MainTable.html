@@ -4,78 +4,86 @@
 
 {% block content %}
 
-<h1>Time table</h1>
+
+{% if user.is_authenticated %}
+    <h1>Time table</h1>
 
 
-<a href="/admin/main/maintable/add/"><button class="btn btn-success"><i class="fas fa-plus"></i> Add person</button></a>
-<a href="/admin"><button type="button" class="btn btn-primary"><i class="fas fa-user-lock"></i> Log in to the admin</button></a>
+    <a href="/admin/main/maintable/add/"><button class="btn btn-success"><i class="fas fa-plus"></i> Add person</button></a>
+    <a href="/admin"><button type="button" class="btn btn-primary"><i class="fas fa-user-lock"></i> Log in to the admin</button></a>
 
-{% if table %}
-    <table class="table table-striped" id='table'>
+    {% if table %}
+        <table class="table table-striped" id='table'>
 
-        <thead>
-           <tr>
+            <thead>
+               <tr>
 
-               <th class="th-sm">
-                   Grade
-               </th>
+                   <th class="th-sm">
+                       Grade
+                   </th>
 
-               <th class="th-sm">
-                   Name
-               </th>
+                   <th class="th-sm">
+                       Name
+                   </th>
 
-               <th class="th-sm">
-                   Time
-               </th>
+                   <th class="th-sm">
+                       Time
+                   </th>
 
-               <th class="th-sm">
-                   Status
-               </th>
+                   <th class="th-sm">
+                       Status
+                   </th>
 
-              </tr>
-        </thead>
+                  </tr>
+            </thead>
 
-        <tbody>
-            {% for row, color in table %}
-                <tr style="background-color:{{ color }}">
-                    <td><form method="GET"><select name="grade" onchange="this.form.submit();">
-                      <option value="none" selected disabled hidden>{{ row.grade }}</option>
+            <tbody>
+                {% for row, color in table %}
+                    <tr style="background-color:{{ color }}">
+                        <td><form method="GET"><select name="grade" onchange="this.form.submit();">
+                          <option value="none" selected disabled hidden>{{ row.grade }}</option>
 
-                      <option value="5C {{ row.name }}">5C</option>
+                          <option value="5C {{ row.name }}">5C</option>
 
-                      <option value="6C {{ row.name }}">6C</option>
+                          <option value="6C {{ row.name }}">6C</option>
 
-                      <option value="6T {{ row.name }}">6T</option>
+                          <option value="6T {{ row.name }}">6T</option>
 
-                      <option value="7C {{ row.name }}">7C</option>
+                          <option value="7C {{ row.name }}">7C</option>
 
-                      <option value="8C {{ row.name }}">8C</option>
+                          <option value="8C {{ row.name }}">8C</option>
 
-                      <option value="9C {{ row.name }}">9C</option>
+                          <option value="9C {{ row.name }}">9C</option>
 
-                      <option value="10C {{ row.name }}">10C</option>
+                          <option value="10C {{ row.name }}">10C</option>
 
-                      <option value="teacher {{ row.name }}">Teacher</option>
+                          <option value="teacher {{ row.name }}">Teacher</option>
 
-                    </select></form></td>
+                        </select></form></td>
 
-                    <td> {{ row.name }} </td>
-                    <td> {{ row.time|time:"H:i:s" }} </td>
-                    <td> {{ row.status }} </td>
-                </tr>
-            {% endfor %}
-        </tbody>
+                        <td> {{ row.name }} </td>
+                        <td> {{ row.time|time:"H:i:s" }} </td>
+                        <td> {{ row.status }} </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
 
-    </table>
+        </table>
+
+    {% else %}
+        <p>So far, no one has come</p>
+    {% endif %}
+
+    <script type="text/javascript">
+    setInterval(function updateDiv(){
+        $( "#table" ).load(window.location.href + " #table" );
+    }, 3000);
+    </script>
+
 
 {% else %}
-    <p>So far, no one has come</p>
+    <h2 style="color:white; text-align:center; margin-top: 3vh">You are not logged in</h2>
+    <button type="button" class="btn btn-primary" style="margin-left: 37vw;"><a style="color:white;" href="{% url 'login' %}">Log In</a></button>>
 {% endif %}
-
-<script type="text/javascript">
-setInterval(function updateDiv(){
-    $( "#table" ).load(window.location.href + " #table" );
-}, 3000);
-</script>
 
 {% endblock %}

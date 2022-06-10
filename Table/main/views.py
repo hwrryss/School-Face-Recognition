@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import MainTable
 
-from django.core import serializers
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
+
 from django.http import HttpResponse
 import json
 
@@ -18,7 +20,6 @@ from . import rcModule
 def TablePage(request):
     context = {}
     context['table'] = MainTable.objects.order_by('grade', 'name', 'time', 'status')
-    print(MainTable.objects.order_by('grade', 'name', 'time', 'status'))
 
     colors = []
     table = context['table'].values()

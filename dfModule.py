@@ -42,10 +42,10 @@ async def combining(encodeListKnown, classNames, recognisers):
 
 
 def startup(status):
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
-    if status == 'Left':
-        cap = cv2.VideoCapture(0)
+    if status == 'Entered':
+        cap = cv2.VideoCapture(1)
 
     detector = FaceDetector()
 
