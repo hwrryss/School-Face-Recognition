@@ -15,11 +15,12 @@
 <body>
     {% csrf_token %}
     <aside>
-        <span class="logo">S_recognised</span>
-        <h3>Navigation</h3>
+        <span class="logo" style="font-size: 6vh;">Силаэдр</span>
+        <h3 style="font-weight: 600; font-size: 3.5vh;">Навигация</h3>
         <ul>
-            <a href="{% url 'home' %}"><li><i class="fas fa-home"></i> Time Table</li></a>
+            <a href="{% url 'home' %}"><li style="font-size: 2vh;"><i class="fas fa-home" style="font-weight: 600; font-size: 2vh;"></i> Посещаемость</li></a>
         </ul>
+        <span><a href="/admin"><button style="margin-top:58vh; font-weight:600; font-size: 2vh;" type="button" class="btn btn-primary"><i class="fas fa-user-lock"></i> Log in to the admin</button></a></span>
     </aside>
     <main>
         {% block content %}

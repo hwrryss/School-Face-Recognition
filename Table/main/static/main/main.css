@@ -57,6 +57,7 @@ aside {
 
 aside .logo {
     font-size: 30px;
+    font-weight: 600;
     margin-left: 10px;
     font-weight: bold;
     position: relative;
@@ -84,5 +85,4 @@ aside ul li:hover, aside ul a:hover {
     text-decoration: none;
     transform: scale(1.05);
 }
-
 
