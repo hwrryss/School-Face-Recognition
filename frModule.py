@@ -37,7 +37,7 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
                 if matches[matchIndex]:
                     name = classNames[matchIndex]
 
-                    if [name] not in people['name'] or\
+                    if name not in people['name'] or\
                             status != people["status"][len(people["name"]) - people["name"][::-1].index(name) - 1]:
                         os.system(f'say -v Milena -r 2000 {name.split("_")[0]}')
                         people['name'].append(name)

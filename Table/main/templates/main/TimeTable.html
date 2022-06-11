@@ -1,0 +1,75 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Посещение по времени{% endblock %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+    <h1 style="font-weight: 600; font-size: 5vh;">Посещение по времени</h1>
+
+
+    <a href="/admin/main/person/add/"><button class="btn btn-success"><i class="fas fa-plus"></i> Add person</button></a>
+
+    {% if table and existing %}
+        <table class="table table-striped" id='table'>
+
+            <thead>
+               <tr>
+
+                   <th class="th-sm">
+                       Класс
+                   </th>
+
+                   <th class="th-sm">
+                       Имя
+                   </th>
+
+                   <th class="th-sm">
+                       Время
+                   </th>
+
+                   <th class="th-sm">
+                       Статус
+                   </th>
+
+                  </tr>
+            </thead>
+
+            <tbody>
+                {% for row in table %}
+                    {% if row.time != '00:00:00' %}
+                        <tr>
+                            <td>{{ row.grade }}</td>
+                            <td> {{ row.name }} </td>
+                            <td> {{ row.time }} </td>
+                            <td> {{ row.status }} </td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    {% else %}
+        <p style="font-weight: 600; text-align: center; font-size: 6vh;">Пока никто не пришел :(</p>
+    {% endif %}
+
+    <script type="text/javascript">
+    setInterval(function updateDiv(){
+        $( "#table" ).load(window.location.href + " #table" );
+    }, 4000);
+
+
+    setInterval(function updateDiv(){
+        $( "#reason" ).load(window.location.href + " #reason" );
+    }, 6000);
+    </script>
+
+
+{% else %}
+    <h2 style="color:white; text-align:center; margin-top: 3vh">Вы не залогинены</h2>
+    <button type="button" class="btn btn-primary" style="margin-left: 37vw;"><a style="color:white;" href="{% url 'login' %}">Войти</a></button>>
+{% endif %}
+
+{% endblock %}

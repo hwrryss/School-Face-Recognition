@@ -1,89 +1,103 @@
 {% extends 'main/base.html' %}
 
-{% block title %}S_recognised{% endblock %}
+{% block title %}Посещаемость{% endblock %}
 
 {% block content %}
 
 
 {% if user.is_authenticated %}
-    <h1>Time table</h1>
-
-
-    <a href="/admin/main/maintable/add/"><button class="btn btn-success"><i class="fas fa-plus"></i> Add person</button></a>
-    <a href="/admin"><button type="button" class="btn btn-primary"><i class="fas fa-user-lock"></i> Log in to the admin</button></a>
+    <h1 style="font-weight: 600; font-size: 5vh;">Посещаемость</h1>
 
     {% if table %}
-        <table class="table table-striped" id='table'>
 
+        <td><form method="GET"><label style="font-weight: 600; font-size: 2vh; color: white;" for ="filt">Выберите ваш класс:</label><select name="filter" id="filt" onchange="this.form.submit();">
+            <option value="none" selected disabled hidden>{{ filter }}</option>
+
+            <option value="5С">5С</option>
+
+            <option value="6С">6С</option>
+
+            <option value="6Т">6Т</option>
+
+            <option value="7С">7С</option>
+
+            <option value="8С">8С</option>
+
+            <option value="9С">9С</option>
+
+            <option value="10С">10С</option>
+
+        </select></form></td>
+
+
+        <table class="table table-striped" id='table'>
             <thead>
                <tr>
-
                    <th class="th-sm">
-                       Grade
+                       Класс
                    </th>
 
                    <th class="th-sm">
-                       Name
+                       Имя
                    </th>
 
                    <th class="th-sm">
-                       Time
+                       Причина
                    </th>
-
-                   <th class="th-sm">
-                       Status
-                   </th>
-
-                  </tr>
+                </tr>
             </thead>
 
             <tbody>
                 {% for row, color in table %}
-                    <tr style="background-color:{{ color }}">
-                        <td><form method="GET"><select name="grade" onchange="this.form.submit();">
-                          <option value="none" selected disabled hidden>{{ row.grade }}</option>
+                    {% if row.grade == filter %}
+                        <tr style="background-color:{{ color }}">
+                            <td> {{ row.grade }} </td>
 
-                          <option value="5C {{ row.name }}">5C</option>
+                            <td> {{ row.name }} </td>
 
-                          <option value="6C {{ row.name }}">6C</option>
+                            {%if row.status == 'Неизвестно' %}
+                                <td><form method="GET"><select name="reason" id="reason" onchange="this.form.submit();">
+                                <option value="none" selected disabled hidden>{{ row.reason}}</option>
 
-                          <option value="6T {{ row.name }}">6T</option>
+                                <option value="Неизвестно {{ row.name }}">Неизвестно</option>
 
-                          <option value="7C {{ row.name }}">7C</option>
+                                <option value="Болезнь {{ row.name }}">Болезнь</option>
 
-                          <option value="8C {{ row.name }}">8C</option>
+                                <option value="Семейные-обстоятельства {{ row.name }}">Семейные обстоятельства</option>
 
-                          <option value="9C {{ row.name }}">9C</option>
+                                <option value="Карантин {{ row.name }}">Карантин</option>
 
-                          <option value="10C {{ row.name }}">10C</option>
+                                <option value="Другое {{ row.name }}">Другое</option>
+                                </select></form></td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
 
-                          <option value="teacher {{ row.name }}">Teacher</option>
-
-                        </select></form></td>
-
-                        <td> {{ row.name }} </td>
-                        <td> {{ row.time|time:"H:i:s" }} </td>
-                        <td> {{ row.status }} </td>
-                    </tr>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             </tbody>
 
         </table>
 
     {% else %}
-        <p>So far, no one has come</p>
+        <p style="font-weight: 600; text-align: center; font-size: 6vh;">Пока никто не пришел :(</p>
     {% endif %}
 
     <script type="text/javascript">
     setInterval(function updateDiv(){
         $( "#table" ).load(window.location.href + " #table" );
-    }, 3000);
+    }, 4000);
+
+    setInterval(function updateDiv(){
+        $( "#reason" ).load(window.location.href + " #reason" );
+    }, 6000);
     </script>
 
 
 {% else %}
-    <h2 style="color:white; text-align:center; margin-top: 3vh">You are not logged in</h2>
-    <button type="button" class="btn btn-primary" style="margin-left: 37vw;"><a style="color:white;" href="{% url 'login' %}">Log In</a></button>>
+    <h2 style="color:white; text-align:center; margin-top: 3vh">Вы не залогинены</h2>
+    <button type="button" class="btn btn-primary" style="margin-left: 37vw;"><a style="color:white;" href="{% url 'login' %}">Войти</a></button>>
 {% endif %}
 
 {% endblock %}

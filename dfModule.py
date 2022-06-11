@@ -37,14 +37,14 @@ async def combining(encodeListKnown, classNames, recognisers):
     await asyncio.gather(
         *[asyncio.to_thread(frModule.determinating, encodeListKnown, classNames, recogniser, recognisers)
           for recogniser in range(recognisers)],
-        *[asyncio.to_thread(startup, status) for status in ['Entered', 'Left']]
+        *[asyncio.to_thread(startup, status) for status in ['Вошел', 'Вышел']]
     )
 
 
 def startup(status):
     cap = cv2.VideoCapture(0)
 
-    if status == 'Entered':
+    if status == 'Вошел':
         cap = cv2.VideoCapture(1)
 
     detector = FaceDetector()

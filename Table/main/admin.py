@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import MainTable
+from .models import Person
 
 # Register your models here.
 
 
-admin.site.register(MainTable)
+admin.site.register(Person)

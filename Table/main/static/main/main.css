@@ -57,6 +57,7 @@ aside {
 aside .logo {
     font-size: 30px;
     margin-left: 10px;
+    font-weight: 600;
     font-weight: bold;
     position: relative;
     top: 13px;

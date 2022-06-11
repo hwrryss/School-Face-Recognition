@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+
+{% block title %}О нас{% endblock %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+     <h1 style="font-weight: 600; font-size: 5vh;">О нас</h1>
+{% else %}
+    <h2 style="color:white; text-align:center; margin-top: 3vh">Вы не залогинены</h2>
+    <button type="button" class="btn btn-primary" style="margin-left: 37vw;"><a style="color:white;" href="{% url 'login' %}">Войти</a></button>>
+{% endif %}
+
+{% endblock %}

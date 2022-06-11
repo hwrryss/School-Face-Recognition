@@ -16,13 +16,15 @@
     {% csrf_token %}
 
         <aside>
-            <span class="logo">S_recognised</span>
-            <h3>Navigation</h3>
-            <ul>
-                <a href="{% url 'home' %}"><li><i class="fas fa-home"></i> Time Table</li></a>
-                <br>
-                <a href="{% url 'login' %}"><li><i class="fas fa-sign-in-alt"></i> Login</li></a>
+            <span class="logo" style="font-size: 6vh;">Силаэдр</span>
+            <h3 style="font-weight: 600; font-size: 3.5vh;">Навигация</h3>
+            <ul style="list-style-type: none;">
+                <a href="{% url 'home' %}" style="margin-top:1vh;"><li style="font-size: 2vh;"><i class="fas fa-home" style="font-weight: 600; font-size: 2vh;"></i> Посещаемость</li></a>
+                <a href="{% url 'time' %}" style="margin-top:1vh;"><li style="font-size: 2vh;"><i class="fas fa-clock" style="font-weight: 600; font-size: 2vh;"></i> Посещение по времени</li></a>
+                <a href="{% url 'about' %}" style="margin-top:1vh;margin-right:5vw"><li style="font-size: 2vh;"><i class="fas fa-question-circle" style="font-weight: 600; font-size: 2vh;"></i> О нас</li></a>
+                <a href="{% url 'login' %}" style="margin-top:1vh;margin-right:5vw"><li style="font-size: 2vh;"><i class="fas fa-sign-in-alt" style="font-weight: 600; font-size: 2vh;"></i> Войти</li></a>
             </ul>
+            <span><a href="/admin"><button style="margin-top:45vh; font-weight:600; font-size: 2vh;" type="button" class="btn btn-primary"><i class="fas fa-user-lock"></i> Войти как администратор</button></a></span>
         </aside>
         <main>
             {% block content %}
