@@ -21,7 +21,6 @@ class Person(models.Model):
         unknown = 'Неизвестно', _('Неизвестно')
         illness = 'Болеет', _('Болеет')
         quarantine = 'Карантин', _('Карантин')
-        family = 'Семейные-обстоятельства', _('Семейные-обстоятельства')
         other = 'Другое', _('Другое')
 
     grade = models.CharField(_('Grade'), max_length=50, choices=GradeChoice.choices, default=GradeChoice.fifth_C)

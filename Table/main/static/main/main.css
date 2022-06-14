@@ -17,7 +17,6 @@ p{
 }
 
 button {
-    float: left;
     margin-right: 2vw;
     margin-top: 2vh;
     margin-bottom: 5vh;
@@ -31,7 +30,7 @@ button {
     background-color: #fff7e6;
     border-collapse: collapse;
     width: 78vw;
-    margin-bottom: -3vh;
+    margin-bottom: 0vh;
 }
 
 body {

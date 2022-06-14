@@ -41,9 +41,20 @@ def TablePage(request):
         if 'reason' in req.keys():
             req = request.GET['reason']
             context['table'].filter(name=' '.join(req.split()[1:])).update(reason=req.split()[0])
-        else:
+
+        elif 'filter' in req.keys():
             req = request.GET['filter']
             filt = req
+
+        elif 'report' in req.keys():
+            req = request.GET['report']
+            data = []
+
+            for i in range(len(table['name'])):
+                if table['grade'][i] == req and table['name'][i] not in data:
+                    data.append([table['name'][i].split()[0], table['status'][i], table['reason'][i]])
+
+            rcModule.sendForm(data, req)
 
     if table:
         for status, reason in zip(table['status'], table['reason']):

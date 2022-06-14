@@ -63,8 +63,6 @@
 
                                 <option value="Болезнь {{ row.name }}">Болезнь</option>
 
-                                <option value="Семейные-обстоятельства {{ row.name }}">Семейные обстоятельства</option>
-
                                 <option value="Карантин {{ row.name }}">Карантин</option>
 
                                 <option value="Другое {{ row.name }}">Другое</option>
@@ -80,17 +78,22 @@
 
         </table>
 
+        <form method="GET">
+            <button style="margin-top: 4vh; margin-left:49vw; margin-bottom:3vh" class="btn btn-primary" name="report" id="report" value='{{ filter }}' type="submit">Отправить ведомость</button>
+        </form>
+
+
     {% else %}
         <p style="font-weight: 600; text-align: center; font-size: 6vh;">Пока никто не пришел :(</p>
     {% endif %}
 
     <script type="text/javascript">
     setInterval(function updateDiv(){
-        $( "#table" ).load(window.location.href + " #table" );
+        $("#table").load(window.location.href.split('?')[0] + " #table");
     }, 4000);
 
     setInterval(function updateDiv(){
-        $( "#reason" ).load(window.location.href + " #reason" );
+        $( "#reason" ).load(window.location.href.split('?')[0] + " #reason" );
     }, 6000);
     </script>
 
