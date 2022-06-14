@@ -8,25 +8,25 @@ def gatherInfo(data):
     table = pd.DataFrame(data.values()).to_dict(orient="list")
 
     for i in range(len(table['name'])):
-        if table['grade'][i] == '5C' and table['name'][i] not in data5C:
+        if table['grade'][i] == '5C' and table['name'][i] not in data5C and table['status'][i] != 'Неизвестно':
             data5C.append(table['name'][i])
 
-        if table['grade'][i] == '6C' and table['name'][i] not in data6C:
+        if table['grade'][i] == '6C' and table['name'][i] not in data6C and table['status'][i] != 'Неизвестно':
             data6C.append(table['name'][i])
 
-        if table['grade'][i] == '6T' and table['name'][i] not in data6T:
+        if table['grade'][i] == '6T' and table['name'][i] not in data6T and table['status'][i] != 'Неизвестно':
             data6T.append(table['name'][i])
 
-        if table['grade'][i] == '7C' and table['name'][i] not in data7C:
+        if table['grade'][i] == '7C' and table['name'][i] not in data7C and table['status'][i] != 'Неизвестно':
             data7C.append(table['name'][i])
 
-        if table['grade'][i] == '8C' and table['name'][i] not in data8C:
+        if table['grade'][i] == '8C' and table['name'][i] not in data8C and table['status'][i] != 'Неизвестно':
             data8C.append(table['name'][i])
 
-        if table['grade'][i] == '9C' and table['name'][i] not in data9C:
+        if table['grade'][i] == '9C' and table['name'][i] not in data9C and table['status'][i] != 'Неизвестно':
             data9C.append(table['name'][i])
 
-        if table['grade'][i] == '10C' and table['name'][i] not in data10C:
+        if table['grade'][i] == '10C' and table['name'][i] not in data10C and table['status'][i] != 'Неизвестно':
             data10C.append(table['name'][i])
 
     return data5C, data6C, data6T, data7C, data8C, data9C, data10C
