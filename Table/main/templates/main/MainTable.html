@@ -10,7 +10,7 @@
 
     {% if table %}
 
-        <td><form method="GET"><label style="font-weight: 600; font-size: 2vh; color: white;" for ="filt">Выберите ваш класс: &nbsp &nbsp</label><select name="filter" id="filt" onchange="this.form.submit();">
+        <td><form method="GET" id="filt"><label style="font-weight: 600; font-size: 2vh; color: white;" for ="filter">Выберите ваш класс: &nbsp &nbsp</label><select name="filter" onchange="this.form.submit();">
             <option value="none" selected disabled hidden>{{ filter }}</option>
 
             <option value="5С">5С</option>
@@ -88,13 +88,13 @@
     {% endif %}
 
     <script type="text/javascript">
-    setInterval(function updateDiv(){
+    setInterval(function updateTable(){
         $("#table").load(window.location.href.split('?')[0] + " #table");
     }, 4000);
 
-    setInterval(function updateDiv(){
-        $( "#reason" ).load(window.location.href.split('?')[0] + " #reason" );
-    }, 6000);
+    setInterval(function updateFilter(){
+        $("#filt").load(window.location.href.split('?')[0] + " #filt");
+    }, 4000);
     </script>
 
 
