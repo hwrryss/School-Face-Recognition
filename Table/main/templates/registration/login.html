@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+
+{% block title %}SFR{% endblock %}
+
+{% block content %}
+
+<h1>Войти</h1>
+<p style="margin-top:5vh">Используйте эту форму для того, чтобы войти в свой акаунт:</p>
+
+<form action="." method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p style="margin-top:0vh">
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: grey">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+
+    <button style="margin-left:2vw" class="btn btn-primary" type="submit">Войти</button>
+</form>
+
+{% endblock %}

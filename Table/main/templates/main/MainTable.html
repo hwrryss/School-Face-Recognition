@@ -1,0 +1,106 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Посещаемость{% endblock %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+    <h1 style="font-weight: 600; font-size: 5vh;">Посещаемость</h1>
+
+    {% if table %}
+
+        <td><form method="GET"><label style="font-weight: 600; font-size: 2vh; color: white;" for ="filt">Выберите ваш класс: &nbsp &nbsp</label><select name="filter" id="filt" onchange="this.form.submit();">
+            <option value="none" selected disabled hidden>{{ filter }}</option>
+
+            <option value="5С">5С</option>
+
+            <option value="6С">6С</option>
+
+            <option value="6Т">6Т</option>
+
+            <option value="7С">7С</option>
+
+            <option value="8С">8С</option>
+
+            <option value="9С">9С</option>
+
+            <option value="10С">10С</option>
+
+        </select></form></td>
+
+
+        <table class="table table-striped" id='table'>
+            <thead>
+               <tr>
+                   <th class="th-sm">
+                       Класс
+                   </th>
+
+                   <th class="th-sm">
+                       Имя
+                   </th>
+
+                   <th class="th-sm">
+                       Причина
+                   </th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for row, color in table %}
+                    {% if row.grade == filter %}
+                        <tr style="background-color:{{ color }}">
+                            <td> {{ row.grade }} </td>
+
+                            <td> {{ row.name }} </td>
+
+                            {%if row.status == 'Неизвестно' %}
+                                <td><form method="GET"><select name="reason" id="reason" onchange="this.form.submit();">
+                                <option value="none" selected disabled hidden>{{ row.reason}}</option>
+
+                                <option value="Неизвестно {{ row.name }}">Неизвестно</option>
+
+                                <option value="Болезнь {{ row.name }}">Болезнь</option>
+
+                                <option value="Карантин {{ row.name }}">Карантин</option>
+
+                                <option value="Другое {{ row.name }}">Другое</option>
+                                </select></form></td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+        <form method="GET">
+            <button style="margin-top: 4vh; margin-left:49vw; margin-bottom:3vh" class="btn btn-primary" name="report" id="report" value='{{ filter }}' type="submit">Отправить ведомость</button>
+        </form>
+
+
+    {% else %}
+        <p style="font-weight: 600; text-align: center; font-size: 6vh;">Пока никто не пришел :(</p>
+    {% endif %}
+
+    <script type="text/javascript">
+    setInterval(function updateDiv(){
+        $("#table").load(window.location.href.split('?')[0] + " #table");
+    }, 4000);
+
+    setInterval(function updateDiv(){
+        $( "#reason" ).load(window.location.href.split('?')[0] + " #reason" );
+    }, 6000);
+    </script>
+
+
+{% else %}
+    <h2 style="color:white; text-align:center; margin-top: 3vh">Вы не залогинены</h2>
+    <button type="button" class="btn btn-primary" style="margin-left: 37vw;"><a style="color:white;" href="{% url 'login' %}">Войти</a></button>>
+{% endif %}
+
+{% endblock %}
