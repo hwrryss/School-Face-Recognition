@@ -14,17 +14,39 @@ import pandas as pd
 from . import rcModule
 from . import utils
 
-filt = '5С'
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+users = User.objects.all()
+
+filt_dict = {}
 
 
 def TablePage(request):
+    global filt_dict
+
+    User = get_user_model()
+    users = User.objects.all()
+    users = users.values()
+    users = pd.DataFrame(users).to_dict(orient="list")
+    users = users['username']
+
+    for user in users:
+        if user not in filt_dict:
+            filt_dict[user] = '5С'
+
     context = {}
     context['table'] = Person.objects.order_by('grade', 'name', 'time', 'status')
     context['colors'] = []
     everyone = utils.parseStudents()
     table = context['table'].values()
     table = pd.DataFrame(table).to_dict(orient="list")
-    global filt
+    filt = '5С'
+
+    username = None
+    if request.user.is_authenticated:
+        username = request.user.username
+        filt = filt_dict[username]
 
     for entity in everyone:
         if table:
@@ -45,6 +67,7 @@ def TablePage(request):
         elif 'filter' in req.keys():
             req = request.GET['filter']
             filt = req
+            filt_dict[username] = filt
 
         elif 'report' in req.keys():
             req = request.GET['report']
