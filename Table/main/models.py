@@ -33,5 +33,5 @@ class Person(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'Person'
-        verbose_name_plural = 'People'
+        verbose_name = 'Ученик'
+        verbose_name_plural = 'Ученики'
