@@ -11,7 +11,8 @@ class PersonAdmin(UserAdmin):
     readonly_fields = ()
 
     filter_horizontal = ()
-    list_filter = ()
+    list_filter = ('grade', )
+    fields = ('grade', 'name', 'time', 'status', 'reason')
     fieldsets = ()
 
     ordering = ('name',)
