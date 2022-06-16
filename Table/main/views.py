@@ -111,8 +111,8 @@ def TimeTablePage(request):
     return render(request, 'main/TimeTable.html', context)
 
 
-def AboutPage(request):
-    return render(request, 'main/About.html')
+def ManualPage(request):
+    return render(request, 'main/Manual.html')
 
 
 def api(request):
