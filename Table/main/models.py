@@ -24,7 +24,7 @@ class Person(models.Model):
         other = 'Другое', _('Другое')
 
     grade = models.CharField(_('Grade'), max_length=50, choices=GradeChoice.choices, default=GradeChoice.fifth_C)
-    name = models.CharField(_('LFM Names'), max_length=50)
+    name = models.CharField(_('Names'), max_length=50)
     time = models.TimeField(_('Time'))
     status = models.CharField(_('Status'), max_length=50, choices=StatusChoice.choices, default=StatusChoice.entered)
     reason = models.CharField(_('Reason'), max_length=50, choices=ReasonChoice.choices, default=ReasonChoice.unknown)

@@ -19,7 +19,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 users = User.objects.all()
 
-filt_dict = {}
+filt_dict = {'Dycent': '8С'}
 
 
 def TablePage(request):
