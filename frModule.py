@@ -8,12 +8,12 @@ from sender import sendData
 
 
 def determinating(encodeListKnown, classNames, recogniser, recognisers):
-    time.sleep(1)
+    time.sleep(2)
 
     people = {'name': [], 'status': []}
 
     while True:
-        time.sleep(0.5)
+        time.sleep(0.06)
 
         facePhotos, detectionTimes, statuses = dbm.selectBunch(recognisers)
         dbm.deleteBunch(recognisers)
@@ -23,10 +23,9 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
 
             img = facePhoto
 
-            imgS = cv2.resize(img, (0, 0), None, 0.5, 0.5)
-            imgS = cv2.cvtColor(imgS, cv2.COLOR_BGR2RGB)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-            encodeCurFrame = face_recognition.face_encodings(imgS)
+            encodeCurFrame = face_recognition.face_encodings(img)
 
             for encodeFace in encodeCurFrame:
                 matches = face_recognition.compare_faces(encodeListKnown, encodeFace, 0.5)
@@ -43,10 +42,8 @@ def determinating(encodeListKnown, classNames, recogniser, recognisers):
                         people['name'].append(name)
                         people['status'].append(status)
 
-                    time.sleep(0.5)
                     sendData(name.split('_')[1], name.split('_')[0], detectionTime,
                              status, 'add')
-
 
         except:
             pass

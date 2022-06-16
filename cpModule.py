@@ -20,19 +20,26 @@ def cropPhotos():
     for className, img in zip(classNames, images):
         facesCurFrame = face_recognition.face_locations(img)
 
-        for faceLoc in facesCurFrame:
-            y1, x2, y2, x1 = faceLoc
+        if facesCurFrame:
+            for faceLoc in facesCurFrame:
+                y1, x2, y2, x1 = faceLoc
 
-            decreased = 5
-            y1 = y1 - decreased if y1 > decreased else 0
-            x1 = x1 - decreased if x1 > decreased else 0
-            y2 = y2 + decreased if y2 + decreased < img.shape[0] else img.shape[0]
-            x2 = x2 + decreased if x2 + decreased < img.shape[1] else img.shape[1]
+                decreased = (y2 - y1)*(x2 - x1)/20000
+                y1 = y1 - decreased if y1 > decreased else 0
+                x1 = x1 - decreased if x1 > decreased else 0
+                y2 = y2 + decreased if y2 + decreased < img.shape[0] else img.shape[0]
+                x2 = x2 + decreased if x2 + decreased < img.shape[1] else img.shape[1]
 
-            crop_img = img[y1:y2, x1:x2]
+                crop_img = img[int(y1):int(y2), int(x1):int(x2)]
 
-            cv2.imwrite(f"{path}/{className}.jpg", crop_img)
-            cv2.waitKey(1)
+                try:
+                    check_facesCurFrame = face_recognition.face_encodings(crop_img)[0]
 
+                    cv2.imwrite(f"{path}/{className}.jpg", crop_img)
+                    cv2.waitKey(1)
 
-cropPhotos()
+                except:
+                    pass
+
+        else:
+            os.system(f'rm "{path}/{className}.jpg"')
