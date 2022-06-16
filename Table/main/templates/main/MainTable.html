@@ -79,7 +79,7 @@
         </table>
 
         <form method="GET">
-            <button style="margin-top: 4vh; margin-left:49vw; margin-bottom:3vh" class="btn btn-primary" name="report" id="report" value='{{ filter }}' type="submit">Отправить ведомость</button>
+            <button onclick="dialog_window()" style="margin-top: 4vh; margin-left:49vw; margin-bottom:3vh" class="btn btn-primary" name="report" id="report" value='{{ filter }}' type="submit">Отправить ведомость</button>
         </form>
 
 
@@ -95,6 +95,11 @@
     setInterval(function updateFilter(){
         $("#filt").load(window.location.href.split('?')[0] + " #filt");
     }, 4000);
+
+
+    function dialog_window() {
+      alert('Ведомость отправлена');
+    }
     </script>
 
 
